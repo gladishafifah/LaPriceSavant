@@ -21,12 +21,13 @@ os_mapping = {'Windows 11 Home': 0,'Mac OS Big Sur': 1, 'DOS': 2, 'Mac OS Monter
 def preprocess_input(Processor, Operating_System, Touch_Screen, Storage, RAM, Screen_Size):
     processor_encode = processor_mapping.get(Processor, -1)
     os_encode = os_mapping.get(Operating_System, -1)
-
+    
     # Return processed input as numpy array
     return np.array([processor_encode, os_encode, Touch_Screen, Storage, RAM, Screen_Size]).reshape(1, -1)
 
 @app.route('/')
 def home():
+    # Render the initial form page
     return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
@@ -34,27 +35,28 @@ def predict():
     '''
     For rendering results on HTML GUI
     '''
-    # Get form values
-    features = [x for x in request.form.values()]
-
-    # Extract individual features
-    Processor = features[0]
-    Operating_System = features[1]
-    Touch_Screen = int(features[2])
-    Storage = int(features[3])
-    RAM = int(features[4])
-    Screen_Size = float(features[5])
-
-     # Preprocess input
+    # Get form values directly from request.form
+    Processor = request.form['Processor']
+    Operating_System = request.form['Operating_System']
+    Touch_Screen = int(request.form['Touch_Screen'])
+    Storage = int(request.form['Storage'])
+    RAM = int(request.form['RAM'])
+    Screen_Size = float(request.form['Screen_Size'])
+    
+    # Preprocess input
     final_features = preprocess_input(Processor, Operating_System, Touch_Screen, Storage, RAM, Screen_Size)
-
+    
     # Make prediction
     prediction = model.predict(final_features)
-
+    
     # Format output
     output = f'{prediction[0]:.3f}'
-
-    return render_template('index.html', prediction_text=f'Prediksi Harga Laptop yaitu sebesar <b>{output} Rupee</b>')
+    
+    # Render the same template, passing the prediction text AND the request object
+    # The request object contains all the form data, allowing the HTML to repopulate the fields.
+    return render_template('index.html',
+                           prediction_text=f'Prediksi Harga Laptop yaitu sebesar <b>{output} Rupee</b>',
+                           request=request)
 
 if __name__ == '__main__':
     app.run(debug=True)

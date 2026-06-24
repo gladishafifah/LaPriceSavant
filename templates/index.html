@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Predict Laptop Price</title>
-    <!-- Font Rubik -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
@@ -142,37 +141,37 @@
                 <form action="/predict" method="post" id="predictForm" class="text">
                     <div class="form-group">
                         <label for="Processor">Processor:</label>
-                        <input type="text" id="Processor" name="Processor" required>
+                        <input type="text" id="Processor" name="Processor" value="{{ request.form.Processor if request.form.Processor else '' }}" required>
                     </div>
                     <div class="form-group">
                         <label for="Operating_System">Operating System:</label>
-                        <input type="text" id="Operating_System" name="Operating_System" required>
+                        <input type="text" id="Operating_System" name="Operating_System" value="{{ request.form.Operating_System if request.form.Operating_System else '' }}" required>
                     </div>
                     <div class="form-group">
                         <label for="Touch_Screen">Touch Screen:</label>
-                        <input type="radio" id="Touch_Screen_1" name="Touch_Screen" value="1" required>
+                        <input type="radio" id="Touch_Screen_1" name="Touch_Screen" value="1" {{ 'checked' if request.form.Touch_Screen == '1' else '' }} required>
                         <label for="Touch_Screen_1">Yes</label>
-                        <input type="radio" id="Touch_Screen_0" name="Touch_Screen" value="0">
+                        <input type="radio" id="Touch_Screen_0" name="Touch_Screen" value="0" {{ 'checked' if request.form.Touch_Screen == '0' else '' }}>
                         <label for="Touch_Screen_0">No</label>
                     </div>                  
                     <div class="form-group">
                         <label for="Storage">Storage (GB):</label>
-                        <input type="number" id="Storage" name="Storage" required>
+                        <input type="number" id="Storage" name="Storage" value="{{ request.form.Storage if request.form.Storage else '' }}" required>
                     </div>
                     <div class="form-group">
                         <label for="RAM">RAM:</label>
                         <select id="RAM" name="RAM" required>
                             <option selected disabled>Select RAM Capacity</option>
-                            <option value="4">4 GB</option>
-                            <option value="8">8 GB</option>
-                            <option value="16">16 GB</option>
-                            <option value="32">32 GB</option>
-                            <option value="64">64 GB</option>
+                            <option value="4" {{ 'selected' if request.form.RAM == '4' else '' }}>4 GB</option>
+                            <option value="8" {{ 'selected' if request.form.RAM == '8' else '' }}>8 GB</option>
+                            <option value="16" {{ 'selected' if request.form.RAM == '16' else '' }}>16 GB</option>
+                            <option value="32" {{ 'selected' if request.form.RAM == '32' else '' }}>32 GB</option>
+                            <option value="64" {{ 'selected' if request.form.RAM == '64' else '' }}>64 GB</option>
                         </select>
                     </div>                 
                     <div class="form-group">
                         <label for="Screen_Size">Screen Size:</label>
-                        <input type="number" id="Screen_Size" name="Screen_Size" min="7" max="21" step="1" required>
+                        <input type="number" id="Screen_Size" name="Screen_Size" min="7" max="21" step="1" value="{{ request.form.Screen_Size if request.form.Screen_Size else '' }}" required>
                     </div>
                     <button type="submit">Predict Price</button>
                 </form>
@@ -186,7 +185,7 @@
         {% endif %}
     </section>
     <footer>
-        <p>Created by Kelompok 3 Data Mining F6A6 - &copy; 2024</p>
+        <p>Created by Data Science - &copy; 2024</p>
     </footer>
 </body>
 </html>
